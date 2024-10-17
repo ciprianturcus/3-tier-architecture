@@ -3,6 +3,7 @@ This terraform code has all necessary resources for a 3-tier architecture are cr
 Below is the explanation of every terraform code block : 
 
 **Provider Configuration**
+
 provider "aws" {
   region = "eu-west-2"
 }
