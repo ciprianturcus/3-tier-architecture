@@ -11,6 +11,7 @@ provider "aws" {
 **This block specifies that we are using AWS as our cloud provider and sets the region to eu-west-2.**
 
 **Backend Configuration**
+
 terraform {
   backend "s3" {
     bucket         = aws_s3_bucket.terraform_state.bucket
