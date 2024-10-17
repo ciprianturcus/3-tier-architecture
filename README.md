@@ -24,6 +24,7 @@ terraform {
 **This block configures Terraform to use an S3 bucket for storing the state file and a DynamoDB table for state locking. This ensures that the state is stored securely and that only one operation can modify the state at a time.**
 
 **S3 Bucket for Terraform State**
+
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "my-terraform-state-bucket"
   acl    = "private"
@@ -44,6 +45,8 @@ resource "aws_s3_bucket" "terraform_state" {
 **This block creates an S3 bucket named my-terraform-state-bucket with private access. It enables versioning to keep track of changes to the state file and configures server-side encryption using AES-256 for security.**
 
 **DynamoDB Table for State Locking**
+
+
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "terraform-lock-table"
   billing_mode = "PAY_PER_REQUEST"
@@ -58,6 +61,7 @@ resource "aws_dynamodb_table" "terraform_locks" {
 **This block creates a DynamoDB table named terraform-lock-table with a primary key LockID. The table is used to manage state locks, ensuring that only one Terraform operation can run at a time.**
 
 **VPC Configuration**
+
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 }
@@ -65,6 +69,7 @@ resource "aws_vpc" "main" {
 **This block creates a Virtual Private Cloud (VPC) with a CIDR block of 10.0.0.0/16. A VPC is a virtual network dedicated to your AWS account.**
 
 **Subnets**
+
 resource "aws_subnet" "public" {
   vpc_id     = aws_vpc.main.id
   cidr_block = "10.0.1.0/24"
@@ -86,6 +91,7 @@ resource "aws_internet_gateway" "gw" {
 **This block creates an Internet Gateway and attaches it to the VPC, allowing instances in the public subnet to access the internet.**
 
 **Route Table**
+
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
@@ -103,6 +109,7 @@ resource "aws_route_table_association" "public" {
 **These blocks create a route table for the public subnet, directing all traffic (0.0.0.0/0) to the Internet Gateway, and associate the route table with the public subnet.**
 
 **Security Groups**
+
 resource "aws_security_group" "web_sg" {
   vpc_id = aws_vpc.main.id
 
@@ -164,6 +171,7 @@ App Security Group: Allows traffic on port 8080 from the public subnet.
 DB Security Group: Allows MySQL traffic (port 3306) from the private subnet.
 
 **EC2 Instances**
+
 resource "aws_instance" "web" {
   ami           = "ami-0c55b159cbfafe1f0"
   instance_type = "t2.micro"
@@ -220,6 +228,7 @@ resource "aws_db_subnet_group" "main" {
 **This block creates a DB subnet group, which is required for the RDS instance to specify which subnets it can use.**
 
 **Outputs**
+
 output "web_instance_id" {
   value = aws_instance.web.id
 }
